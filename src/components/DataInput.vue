@@ -38,8 +38,6 @@
 </script>
 
 <style lang="scss">
-  @import "../styles/media.scss";
-
   .input {
     text-align: center;
     display: flex;
