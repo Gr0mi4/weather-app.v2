@@ -1,5 +1,7 @@
-import Authentification from "./components/Authentification";
+import Authentication from "./components/Authentication";
+import Home from "./components/Home";
 
 export const routes = [
-  {path: '/auth', component: Authentification}
+  {path: '/auth', component: Authentication},
+  {path: '', component: Home}
 ]
