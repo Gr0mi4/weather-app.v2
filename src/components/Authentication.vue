@@ -6,9 +6,9 @@
       <input type="text" id="login-input" v-model="login" placeholder="smth@youremailservice.com"/>
       <label>Please type your password</label>
       <input type="password" id="password-input" v-model="password" placeholder="From six symbols"/>
-      <h1 class="warning" v-if="this.authUser===null">You are not signed in</h1>
-      <h1 class="warning" v-if="this.authUser">You are signed in as {{authUser.email}}</h1>
-      <h1 class="warning error" v-if="this.errorText">{{errorText}}</h1>
+      <h1 class="user-info" v-if="this.authUser===null">You are not signed in</h1>
+      <h1 class="user-info" v-if="this.authUser">You are signed in as {{authUser.email}}</h1>
+      <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
     </div>
     <div class="action-buttons">
       <input v-if="!this.authUser" class="button" type="submit" value="Sign In" v-on:click="signInUser"/>
@@ -60,6 +60,22 @@
     margin: 0;
     color: #3460A4;
     font-size: 40px;
+
+    @media screen and (max-width: 1024px) {
+      font-size: 60px;
+    }
+
+    @media screen and (max-width: 702px) {
+      font-size: 50px;
+    }
+
+    @media screen and (max-width: 502px) {
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 502px) {
+      font-size: 35px;
+    }
   }
 
   .inputs {
@@ -67,30 +83,99 @@
     flex-direction: column;
     align-items: center;
 
-    .warning {
+    & label {
+      font-size: 20px;
+      margin-bottom: 5px;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 35px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 32px;
+      }
+
+      @media screen and (max-width: 380px) {
+        font-size: 26px;
+      }
+    }
+
+    & input[type=text], input[type=password] {
+      text-align: center;
+      font-size: 28px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: box-shadow 0.4s;
+      outline: none;
+      min-width: 400px;
+      padding: 5px;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 45px;
+        min-width: 650px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 35px;
+        min-width: 500px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 26px;
+        min-width: 350px;
+      }
+
+      @media screen and (max-width: 380px) {
+        font-size: 22px;
+        min-width: 300px;
+      }
+    }
+
+    .user-info {
       margin: 0;
       padding: 0;
       font-size: 25px;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 35px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 32px;
+      }
+
+      @media screen and (max-width: 380px) {
+        font-size: 26px;
+      }
     }
 
     .error {
       color: red;
       font-size: 22px;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 35px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 32px;
+      }
     }
   }
 
-  input {
-    text-align: center;
-    font-size: 28px;
-    border: none;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    transition: box-shadow 0.4s;
-    outline: none;
-    min-width: 400px;
-    padding: 5px;
-
-  }
 
   .action-buttons {
     margin: 0 0 20px;
@@ -103,6 +188,32 @@
       border-radius: 20px;
       font-size: 22px;
       transition: 0.5s;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+        padding: 20px;
+        margin: 20px 20px 40px;
+        min-width: 250px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 30px;
+        padding: 15px;
+        margin: 15px 15px 30px;
+        min-width: 200px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 25px;
+        margin: 10px 10px 20px;
+        min-width: 180px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 22px;
+        margin: 5px 5px 15px;
+        min-width: 150px;
+      }
 
       &:hover {
         cursor: pointer;
@@ -121,6 +232,26 @@
     border: 2px solid #3460A4;
     border-radius: 30px;
     text-decoration: none;
+
+    @media screen and (max-width: 1024px) {
+      font-size: 40px;
+      padding: 40px;
+    }
+
+    @media screen and (max-width: 702px) {
+      font-size: 30px;
+      padding: 30px;
+    }
+
+    @media screen and (max-width: 502px) {
+      font-size: 25px;
+      padding: 25px;
+    }
+
+    @media screen and (max-width: 502px) {
+      font-size: 20px;
+      padding: 15px;
+    }
   }
 
 </style>

@@ -35,6 +35,10 @@
     border-radius: 0 0 20px 20px;
     transition: 1s;
 
+    @media screen and (max-width: 502px) {
+      font-size: 10px;
+    }
+
     .button {
       margin: 5px;
       padding: 8px;
@@ -45,6 +49,11 @@
       text-decoration: none;
       background-color: #3460A4;
       color: #fff;
+
+      @media screen and (max-width: 502px) {
+        font-size: 14px;
+        padding: 3px;
+      }
     }
   }
 </style>
