@@ -21,7 +21,7 @@
 
 <script>
 import database from './../firebase'
-import '../styles/colors.scss'
+import '../styles/variables.scss'
 
 export default {
   name: 'Authentification',

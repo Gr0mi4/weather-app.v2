@@ -1,10 +1,10 @@
 <template>
-    <router-view></router-view>
+  <router-view></router-view>
 </template>
 
 <script>
 import database from './firebase'
-import router from './router'
+// import router from './router'
 
 export default {
   name: 'App',
@@ -16,15 +16,10 @@ export default {
   beforeCreate () {
     database.auth().onAuthStateChanged(user => {
       this.authUser = user
+      localStorage.user = user
     })
   }
 }
-
-router.beforeEach((to, from, next) => {
-  console.log('yes')
-  if (this.authUser) { console.log(this.authUser) }
-  next()
-})
 
 </script>
 
