@@ -1,19 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from "vue-router";
-import Input from './components/Home/DataInput';
-import {routes} from "./routes"
+import VueRouter from 'vue-router'
+import Input from './components/Home/DataInput'
+import router from './router'
 
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-  routes
-})
-
-Vue.config.productionTip = false;
-Vue.component('Input', Input);
+Vue.use(VueRouter)
+Vue.config.productionTip = false
+Vue.component('Input', Input)
 
 new Vue({
   router,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app')

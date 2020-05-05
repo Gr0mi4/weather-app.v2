@@ -15,25 +15,25 @@
 </template>
 
 <script>
-  export default {
-    name: 'DataInput',
-    data: function () {
-      return {
-        cityName: this.props,
-        weatherServiceName: this.weatherService
-      }
+export default {
+  name: 'DataInput',
+  data () {
+    return {
+      cityName: this.props,
+      weatherServiceName: this.weatherService
+    }
+  },
+  props: ['city', 'weatherService'],
+  methods: {
+    changeCityName () {
+      this.cityName = document.getElementById('city-input-field').value
+      this.$emit('cityNameChanged', this.cityName)
     },
-    props: ['city', 'weatherService'],
-    methods: {
-      changeCityName() {
-        this.cityName = document.getElementById('city-input-field').value;
-        this.$emit('cityNameChanged', this.cityName)
-      },
-      changeWeatherService() {
-        this.$emit('weatherServiceChanged', this.weatherServiceName);
-      },
+    changeWeatherService () {
+      this.$emit('weatherServiceChanged', this.weatherServiceName)
     }
   }
+}
 
 </script>
 
@@ -47,7 +47,7 @@
 
     &-header {
       font-family: Bahnschrift;
-      color: #3460A4;
+      color: $primary-color;
       font-size: 42px;
 
       @media screen and (max-width: 1024px) {
@@ -95,7 +95,7 @@
       }
 
       &:focus {
-        box-shadow: 0 0 4px 4px #fff;
+        box-shadow: 0 0 4px 4px $secondary-color;
       }
     }
   }
@@ -103,7 +103,7 @@
   .service {
     &-headline {
       margin: 0;
-      color: #3460A4;
+      color: $primary-color;
       font-size: 20px;
 
       @media screen and (max-width: 1024px) {
@@ -132,7 +132,7 @@
         width: 150px;
         padding: 10px;
         margin: 10px;
-        background-color: #3460A4;
+        background-color: $primary-color;
         border-radius: 20px;
         font-size: 18px;
         transition: 0.5s;
@@ -170,7 +170,7 @@
     }
 
     input[type=radio]:checked + label {
-      background: #fff;
-      color: #3460A4;
+      background: $secondary-color;
+      color: $primary-color;
     }
 </style>

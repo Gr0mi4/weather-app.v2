@@ -6,21 +6,21 @@
 </template>
 
 <script>
-  import database from "./../../firebase";
+import database from './../../firebase'
 
-  export default {
-    name: "ChangeUserWindow",
-    data: function () {
-      return {
-        authUser: null
-      }
-    },
-    created() {
-      database.auth().onAuthStateChanged(user => {
-        this.authUser = user
-      })
+export default {
+  name: 'ChangeUserWindow',
+  data: function () {
+    return {
+      authUser: null
     }
+  },
+  created () {
+    database.auth().onAuthStateChanged(user => {
+      this.authUser = user
+    })
   }
+}
 </script>
 
 <style lang="scss">
@@ -30,8 +30,8 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    background-color: #fff;
-    color: #3460A4;
+    background-color: $secondary-color;
+    color: $primary-color;
     border-radius: 0 0 20px 20px;
     transition: 1s;
 
@@ -47,8 +47,8 @@
       font-size: 18px;
       border: none;
       text-decoration: none;
-      background-color: #3460A4;
-      color: #fff;
+      background-color: $primary-color;
+      color: $secondary-color;
 
       @media screen and (max-width: 502px) {
         font-size: 14px;

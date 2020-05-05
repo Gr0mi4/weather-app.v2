@@ -11,130 +11,131 @@
 </template>
 
 <script>
-  export default {
-    name: "ShowWeather",
-    props: ['city', 'weatherService'],
-    data: function () {
-      return {
-        results: {},
-        dataArrived: false,
-        timeStamp: undefined,
-        usedService: this.weatherService,
-        error: false,
-        resultsFromCache: false
+export default {
+  name: 'ShowWeather',
+  props: ['city', 'weatherService'],
+  data () {
+    return {
+      results: {},
+      dataArrived: false,
+      timeStamp: undefined,
+      usedService: this.weatherService,
+      error: false,
+      resultsFromCache: false
+    }
+  },
+  methods: {
+    showOpenWeatherForecast () {
+      if (this.checkResultsInCache()) {
+        this.showResultsFromCache()
+      } else {
+        this.resultsFromCache = false
+        const url = 'http://api.openweathermap.org/data/2.5/weather?q=' + `${this.city}` + '&APPID=1d5b2747b9b459a833cca4a6207e9467'
+        fetch(url).then(response => {
+          if (response.status === 204 || response.status === 404) {
+            this.error = true
+          } else {
+            response.json().then(result => {
+              const forecastData = {
+                Country: result.sys.country,
+                'Weather Condition': result.weather[0].main,
+                Temperature: this.convertKalvinToCelsius(result.main.temp),
+                'Feels Like': this.convertKalvinToCelsius(result.main.feels_like),
+                Humidity: result.main.humidity + ' %',
+                'Wind Speed': result.wind.speed + ' m/s'
+              }
+              this.results = forecastData
+              this.dataArrived = true
+              this.saveResultsInCache(forecastData)
+            })
+          }
+        }
+        )
       }
     },
-    methods: {
-      showOpenWeatherForecast() {
-        if (this.checkResultsInCache()) {
-          this.showResultsFromCache()
-        } else {
-          this.resultsFromCache = false;
-          let url = 'http://api.openweathermap.org/data/2.5/weather?q=' + `${this.city}` + `&APPID=1d5b2747b9b459a833cca4a6207e9467`;
-          fetch(url).then(response => {
-               if (response.status === 204 || response.status === 404) {
-                 return this.error = true
-               } else {
-                 response.json().then(result => {
-                   let forecastData = {
-                     'Country': result.sys.country,
-                     'Weather Condition': result.weather[0].main,
-                     'Temperature': this.convertKalvinToCelsius(result.main.temp),
-                     'Feels Like': this.convertKalvinToCelsius(result.main.feels_like),
-                     'Humidity': result.main.humidity + ' %',
-                     'Wind Speed': result.wind.speed + ' m/s',
-                   };
-                   this.results = forecastData;
-                   this.dataArrived = true;
-                   this.saveResultsInCache(forecastData)
-                 })
-               }
-             }
-          )
+    showWeatherBitForecast () {
+      if (this.checkResultsInCache()) {
+        this.showResultsFromCache()
+      } else {
+        this.resultsFromCache = false
+        const url = 'https://api.weatherbit.io/v2.0/current?city=' + `${this.city}` + '&key=0d3fd477f5b24855b51d98148f284919'
+        fetch(url).then(response => {
+          if (response.status === 204 || response.status === 404) {
+            this.error = true
+          } else {
+            response.json().then(result => {
+              const forecastData = {
+                Country: result.data[0].country_code,
+                'Weather Condition': result.data[0].weather.description,
+                Temperature: Math.round(result.data[0].temp) + String.fromCharCode(176) + ' C',
+                'Feels Like': Math.round(result.data[0].app_temp) + String.fromCharCode(176) + ' C',
+                Humidity: result.data[0].rh + ' %',
+                'Wind Speed': Math.round(result.data[0].wind_spd) + ' m/s'
+              }
+              this.results = forecastData
+              this.dataArrived = true
+              if (!this.checkResultsInCache()) {
+                this.saveResultsInCache(forecastData)
+              }
+            }
+            )
+          }
         }
-      },
-      showWeatherBitForecast() {
-        if (this.checkResultsInCache()) {
-          this.showResultsFromCache()
-        } else {
-          this.resultsFromCache = false;
-          let url = `https://api.weatherbit.io/v2.0/current?city=` + `${this.city}` + `&key=0d3fd477f5b24855b51d98148f284919`;
-          fetch(url).then(response => {
-               if (response.status === 204 || response.status === 404) {
-                 return this.error = true
-               } else {
-                 response.json().then(result => {
-                      let forecastData = {
-                        'Country': result.data[0].country_code,
-                        'Weather Condition': result.data[0].weather.description,
-                        'Temperature': Math.round(result.data[0].temp) + String.fromCharCode(176) + ' C',
-                        'Feels Like': Math.round(result.data[0].app_temp) + String.fromCharCode(176) + ' C',
-                        'Humidity': result.data[0].rh + ' %',
-                        'Wind Speed': Math.round(result.data[0].wind_spd) + ' m/s',
-                      }
-                      this.results = forecastData;
-                      this.dataArrived = true;
-                      if (!this.checkResultsInCache()) {
-                        this.saveResultsInCache(forecastData)
-                      }
-                    }
-                 )
-               }
-             }
-          )
-        }
-      },
-      showForecast() {
-        if (this.city === '') {
-          return this.error = true
-        }
-        this.error = false;
-        this.timeStamp = Date.now();
-        if (this.weatherService === 'openWeather') {
-          this.usedService = 'Open Weather';
-          this.showOpenWeatherForecast()
-        } else {
-          this.usedService = 'Weather Bit';
-          this.showWeatherBitForecast()
-        }
-      },
-      convertKalvinToCelsius(degreesKalvin) {
-        let degreesCelsius = Math.floor(degreesKalvin - 273.15) + String.fromCharCode(176) + ' C';
-        return degreesCelsius
-      },
-      checkResultsInCache() {
-        if (localStorage.city === undefined) {
-          return false
-        } else {
-          return localStorage.city === this.city && localStorage.usedService === this.usedService && localStorage.timeStamp - this.timeStamp < 3600000;
-        }
-      },
-      saveResultsInCache(forecastData) {
-        console.log('Записаны новые данные')
-        localStorage.forecast = JSON.stringify(forecastData);
-        localStorage.usedService = this.usedService;
-        localStorage.timeStamp = this.timeStamp;
-        localStorage.city = this.city;
-      },
-      showResultsFromCache() {
-        this.dataArrived = true;
-        this.results = JSON.parse(localStorage.forecast);
-        this.resultsFromCache = true;
+        )
       }
+    },
+    showForecast () {
+      if (this.city === '') {
+        this.error = true
+        return
+      }
+      this.error = false
+      this.timeStamp = Date.now()
+      if (this.weatherService === 'openWeather') {
+        this.usedService = 'Open Weather'
+        this.showOpenWeatherForecast()
+      } else {
+        this.usedService = 'Weather Bit'
+        this.showWeatherBitForecast()
+      }
+    },
+    convertKalvinToCelsius (degreesKalvin) {
+      const degreesCelsius = Math.floor(degreesKalvin - 273.15) + String.fromCharCode(176) + ' C'
+      return degreesCelsius
+    },
+    checkResultsInCache () {
+      if (localStorage.city === undefined) {
+        return false
+      } else {
+        return localStorage.city === this.city && localStorage.usedService === this.usedService && localStorage.timeStamp - this.timeStamp < 3600000
+      }
+    },
+    saveResultsInCache (forecastData) {
+      console.log('Записаны новые данные')
+      localStorage.forecast = JSON.stringify(forecastData)
+      localStorage.usedService = this.usedService
+      localStorage.timeStamp = this.timeStamp
+      localStorage.city = this.city
+    },
+    showResultsFromCache () {
+      this.dataArrived = true
+      this.results = JSON.parse(localStorage.forecast)
+      this.resultsFromCache = true
     }
   }
+}
 </script>
 
 <style lang="scss">
   .submit-button {
     border: none;
     border-radius: 20px;
-    background-color: #3460A4;
+    background-color: $primary-color;
     width: 250px;
     height: 50px;
     font-family: Bahnschrift;
     font-size: 26px;
-    color: #fff;
+    color: $secondary-color;
     transition: 0.5s;
     outline: none;
 
@@ -147,7 +148,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 4px 4px #fff;
+      box-shadow: 0 0 4px 4px $secondary-color;
     }
 
     @media screen and (max-width: 1024px) {
@@ -176,10 +177,10 @@
 
   .results {
     margin: 15px;
-    border: 2px solid #3460A4;
+    border: 2px solid $primary-color;
     border-radius: 10px;
-    background-color: #fff;
-    color: #000;
+    background-color: $secondary-color;
+    color: $tertiary-color;
 
     @media screen and (max-width: 1024px) {
       border-radius: 40px;
@@ -231,7 +232,7 @@
       font-size: 12px;
       padding: 0 15px;
       margin: 5px;
-      color: #3460A4;
+      color: $primary-color;
 
       @media screen and (max-width: 1024px) {
         font-size: 18px;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form>
     <h1 class="headline">Please sign in to see the weather :</h1>
     <div class="inputs">
       <label>Please type your email</label>
@@ -11,54 +11,56 @@
       <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
     </div>
     <div class="action-buttons">
-      <input v-if="!this.authUser" class="button" type="submit" value="Sign In" v-on:click="signInUser"/>
+      <input v-if="!this.authUser" class="button" type="submit" value="Sign In" @click="signInUser"/>
       <input v-if="this.authUser" class="button" type="submit" value="Sign Out" v-on:click="signOut"/>
       <input v-if="!this.authUser" class="button" type="submit" value="Register" v-on:click="registerNewUser"/>
     </div>
     <router-link v-if="this.authUser" class="link" to="/">Back to the weather</router-link>
-  </div>
+  </form>
 </template>
 
 <script>
-  import database from "./../firebase"
+import database from './../firebase'
+import '../styles/colors.scss'
 
-  export default {
-    name: "Authentification",
-    data: function () {
-      return {
-        login: '',
-        password: '',
-        authUser: null,
-        errorText: ''
-      }
-    },
-    methods: {
-      registerNewUser() {
-        database.auth().createUserWithEmailAndPassword(this.login, this.password)
-           .then(() => this.errorText = '')
-           .catch(error => this.errorText = 'Registration failed. ' + error.message)
-      },
-      signInUser() {
-        database.auth().signInWithEmailAndPassword(this.login, this.password)
-           .then(() => this.errorText = '')
-           .catch(error => this.errorText = 'User unauthorised. ' + error.message)
-      },
-      signOut() {
-        database.auth().signOut()
-      }
-    },
-    created() {
-      database.auth().onAuthStateChanged(user => {
-        this.authUser = user
-      })
+export default {
+  name: 'Authentification',
+  data () {
+    return {
+      login: '',
+      password: '',
+      authUser: null,
+      errorText: ''
     }
+  },
+  methods: {
+    registerNewUser () {
+      database.auth().createUserWithEmailAndPassword(this.login, this.password)
+        .then(() => { this.errorText = '' })
+        .catch(error => { this.errorText = 'Registration failed. ' + error.message })
+    },
+    signInUser () {
+      database.auth().signInWithEmailAndPassword(this.login, this.password)
+        .then(() => { this.errorText = '' })
+        .catch(error => { this.errorText = 'User unauthorised. ' + error.message })
+    },
+    signOut () {
+      database.auth().signOut()
+    }
+  },
+  created () {
+    database.auth().onAuthStateChanged(user => {
+      this.authUser = user
+    })
   }
+}
+
 </script>
 
 <style lang="scss">
   .headline {
     margin: 0;
-    color: #3460A4;
+    color: $primary-color;
     font-size: 40px;
 
     @media screen and (max-width: 1024px) {
@@ -134,6 +136,10 @@
         font-size: 22px;
         min-width: 300px;
       }
+
+      &:focus {
+        box-shadow: 0 0 4px 4px $secondary-color;
+      }
     }
 
     .user-info {
@@ -176,18 +182,19 @@
     }
   }
 
-
   .action-buttons {
     margin: 0 0 20px;
+
     .button {
       min-width: 150px;
       padding: 10px;
       margin: 10px;
-      color: white;
-      background-color: #3460A4;
+      color: $secondary-color;
+      background-color: $primary-color;
       border-radius: 20px;
       font-size: 22px;
       transition: 0.5s;
+      outline: none;
 
       @media screen and (max-width: 1024px) {
         font-size: 40px;
@@ -222,14 +229,18 @@
       &:active {
         transform: scale(0.92);
       }
+
+      &:focus {
+        box-shadow: 0 0 4px 4px $secondary-color;
+      }
     }
   }
 
   .link {
     font-size: 25px;
-    background-color: #fff;
+    background-color: $secondary-color;
     padding: 20px;
-    border: 2px solid #3460A4;
+    border: 2px solid $primary-color;
     border-radius: 30px;
     text-decoration: none;
 
