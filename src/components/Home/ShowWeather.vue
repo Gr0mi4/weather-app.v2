@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input class="submit-button" type="submit" value="Show Forecast" @click="showForecast"/>
+    <input class="submit-button button" type="submit" value="Show Forecast" @click="showForecast"/>
     <h1 v-if="error" class="error">There is no city name entered or city name incorrect</h1>
     <div class="results" v-if='dataArrived && !error'>
       <h1 class="city-name">{{this.city}}</h1>

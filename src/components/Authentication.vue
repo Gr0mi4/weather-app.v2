@@ -1,63 +1,45 @@
 <template>
-  <form>
-    <h1 class="headline">Please sign in to see the weather :</h1>
-    <div class="inputs">
-      <label>Please type your email</label>
-      <input type="text" id="login-input" v-model="login" placeholder="smth@youremailservice.com"/>
-      <label>Please type your password</label>
-      <input type="password" id="password-input" v-model="password" placeholder="From six symbols"/>
-      <h1 class="user-info" v-if="this.authUser===null">You are not signed in</h1>
-      <h1 class="user-info" v-if="this.authUser">You are signed in as {{authUser.email}}</h1>
-      <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
+  <div>
+    <div class="authorization-choice">
+      <h1 class="headline">Hello! To see the weather you must be authorised. Please register or sign in to use
+        Weather-app.v2</h1>
+      <router-link to="/signIn" class="button">Sign In/Out</router-link>
+      <router-link to="/register" class="button">Register</router-link>
     </div>
-    <div class="action-buttons">
-      <input v-if="!this.authUser" class="button" type="submit" value="Sign In" @click="signInUser"/>
-      <input v-if="this.authUser" class="button" type="submit" value="Sign Out" v-on:click="signOut"/>
-      <input v-if="!this.authUser" class="button" type="submit" value="Register" v-on:click="registerNewUser"/>
-    </div>
-    <router-link v-if="this.authUser" class="link" to="/">Back to the weather</router-link>
-  </form>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import database from './../firebase'
-import '../styles/variables.scss'
-
 export default {
-  name: 'Authentification',
-  data () {
-    return {
-      login: '',
-      password: '',
-      authUser: null,
-      errorText: ''
-    }
-  },
-  methods: {
-    registerNewUser () {
-      database.auth().createUserWithEmailAndPassword(this.login, this.password)
-        .then(() => { this.errorText = '' })
-        .catch(error => { this.errorText = 'Registration failed. ' + error.message })
-    },
-    signInUser () {
-      database.auth().signInWithEmailAndPassword(this.login, this.password)
-        .then(() => { this.errorText = '' })
-        .catch(error => { this.errorText = 'User unauthorised. ' + error.message })
-    },
-    signOut () {
-      database.auth().signOut()
-    }
-  },
-  created () {
-    database.auth().onAuthStateChanged(user => {
-      this.authUser = user
-    })
-  }
+  name: 'Authentification'
 }
 
 </script>
 
 <style lang="scss">
+  .authorization-choice {
+    margin: 0 20%;
+    padding: 20px;
+    background-color: $secondary-color;
+    border-radius: 0 0 30px 30px;
+
+    .headline {
+      font-size: 30px;
+      padding: 10px 10px 25px;
+    }
+
+    .button {
+      font-size: 30px;
+      padding: 15px 25px;
+
+      &.chosen {
+        background-color: $secondary-color;
+        color: $primary-color;
+        border: 2px solid $primary-color;
+      }
+    }
+  }
   .headline {
     margin: 0;
     color: $primary-color;
@@ -78,6 +60,10 @@ export default {
     @media screen and (max-width: 502px) {
       font-size: 35px;
     }
+  }
+
+  form{
+    margin-top: 30px ;
   }
 
   .inputs {
@@ -184,56 +170,6 @@ export default {
 
   .action-buttons {
     margin: 0 0 20px;
-
-    .button {
-      min-width: 150px;
-      padding: 10px;
-      margin: 10px;
-      color: $secondary-color;
-      background-color: $primary-color;
-      border-radius: 20px;
-      font-size: 22px;
-      transition: 0.5s;
-      outline: none;
-
-      @media screen and (max-width: 1024px) {
-        font-size: 40px;
-        padding: 20px;
-        margin: 20px 20px 40px;
-        min-width: 250px;
-      }
-
-      @media screen and (max-width: 702px) {
-        font-size: 30px;
-        padding: 15px;
-        margin: 15px 15px 30px;
-        min-width: 200px;
-      }
-
-      @media screen and (max-width: 502px) {
-        font-size: 25px;
-        margin: 10px 10px 20px;
-        min-width: 180px;
-      }
-
-      @media screen and (max-width: 502px) {
-        font-size: 22px;
-        margin: 5px 5px 15px;
-        min-width: 150px;
-      }
-
-      &:hover {
-        cursor: pointer;
-      }
-
-      &:active {
-        transform: scale(0.92);
-      }
-
-      &:focus {
-        box-shadow: 0 0 4px 4px $secondary-color;
-      }
-    }
   }
 
   .link {
@@ -243,6 +179,9 @@ export default {
     border: 2px solid $primary-color;
     border-radius: 30px;
     text-decoration: none;
+    color: $primary-color;
+    outline: none;
+    transition: 1s;
 
     @media screen and (max-width: 1024px) {
       font-size: 40px;
@@ -262,6 +201,18 @@ export default {
     @media screen and (max-width: 502px) {
       font-size: 20px;
       padding: 15px;
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:focus {
+      box-shadow: 0 0 4px 4px $secondary-color;
     }
   }
 

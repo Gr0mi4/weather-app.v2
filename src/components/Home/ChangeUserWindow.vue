@@ -1,7 +1,7 @@
 <template>
   <div class="userInfo" v-if="this.authUser!==null">
     <h3>You are signed in as: {{this.authUser.email}}</h3>
-    <router-link to="/auth" class="button">Change User</router-link>
+    <router-link to="/signIn" class="button">Change User</router-link>
   </div>
 </template>
 
