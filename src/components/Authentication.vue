@@ -161,6 +161,7 @@ export default {
     .error {
       color: red;
       font-size: 22px;
+      margin: 0;
 
       @media screen and (max-width: 1024px) {
         font-size: 40px;
