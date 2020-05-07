@@ -8,7 +8,14 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.user === 'null' || localStorage.user === undefined) {
+        next({ name: 'auth' })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/auth',
@@ -30,14 +37,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes: routes
-})
-router.beforeEach((to, from, next) => {
-  if ((localStorage.user === 'null' || localStorage.user === undefined) && to.name === 'home') {
-    next({ name: 'auth' })
-  } else {
-    next()
-  }
 })
 
 export default router

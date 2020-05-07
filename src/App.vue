@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss">
   body {
-    background-image: $primary-background-gradient;
+    background-color: #a1c4fd;
     display: flex;
     justify-content: center;
     height: 100vh;
@@ -80,5 +80,41 @@ export default {
               box-shadow: 0 0 4px 4px $secondary-color;
           }
       }
+
+    & .input-field {
+      text-align: center;
+      font-size: 28px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: box-shadow 0.4s;
+      outline: none;
+      min-width: 400px;
+      padding: 5px;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 45px;
+        min-width: 650px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 35px;
+        min-width: 500px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 26px;
+        min-width: 350px;
+      }
+
+      @media screen and (max-width: 380px) {
+        font-size: 22px;
+        min-width: 300px;
+      }
+
+      &:focus {
+        box-shadow: 0 0 4px 4px $secondary-color;
+      }
+    }
   }
 </style>

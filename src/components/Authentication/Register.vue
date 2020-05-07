@@ -1,11 +1,23 @@
 <template>
-  <form @submit.prevent>
+  <form @submit.prevent class="register-form">
     <div class="inputs">
       <label>Please type your email here:</label>
-      <input type="text" id="login-input" v-model="login" placeholder="smth@youremailservice.com"/>
+      <input class="input-field" type="text" id="login-input" v-model="login" placeholder="smth@youremailservice.com"/>
       <label>Please type your password here:</label>
-      <input type="password" id="password-input" v-model="password" placeholder="From six symbols"/>
+      <input class="input-field" type="password" id="password-input" v-model="password" placeholder="From six symbols"/>
       <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
+    </div>
+    <button v-if="!showAdditionalParams" class="button" @click="showAdditionalParams=true">Show additional parameters</button>
+    <div v-if="showAdditionalParams" class="inputs additional">
+      <label>First Name</label>
+      <input class="input-field" type="text"/>
+      <label>City</label>
+      <input class="input-field" type="text"/>
+      <label>Country</label>
+      <input class="input-field" type="text"/>
+      <label>Date of birth</label>
+      <input class="input-field" type="date"/>
+      <button class="button" @click="showAdditionalParams=false">Hide additional parameters</button>
     </div>
     <input v-if="!this.authUser" class="button" type="submit" value="Register" @click="registerNewUser"/>
     <h1 v-if="this.authUser" class="headline">To register a new user please sign out</h1>
@@ -24,7 +36,7 @@ export default {
       password: '',
       authUser: null,
       errorText: '',
-      registrationSuccessful: false
+      showAdditionalParams: false
     }
   },
   methods: {
@@ -43,16 +55,26 @@ export default {
 </script>
 
 <style lang="scss">
-  .success-message {
-    background-color: $secondary-color;
-    padding: 10px;
-    max-width: 500px;
-    margin: 0 auto;
-    color: $primary-color;
-    border-radius: 30px;
+  .register-form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+
+    .headline {
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+        padding: 10px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 26px;
+        padding: 2px;
+      }
+    }
+
+    .additional-inputs {
+      display: flex;
+      flex-direction: column;
+    }
   }
 </style>
