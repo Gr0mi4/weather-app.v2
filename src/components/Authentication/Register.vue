@@ -4,7 +4,7 @@
       <div class="inputs">
         <label>Please type your email here:</label>
         <input class="input-field" type="text" id="login-input" v-model="login"
-               @blur="this.$v.login.$touch"
+
                placeholder="smth@youremailservice.com"/>
         <p class="input error" v-if="this.$v.login.$error">Entered email is not valid</p>
         <label>Please type your password here:</label>
@@ -21,26 +21,23 @@
         <label>First Name</label>
         <input class="input-field"
                type="text"
-               v-model="userName"
-               @input="this.$v.userName.$touch"/>
-        <p class="input error" v-if="this.$v.userName.$error">Only english letters allowed</p>
+               v-model="userName"/>
+        <p class="input error" v-if="this.$v.userName.$invalid">Only letters allowed</p>
         <label>City</label>
         <input class="input-field"
                type="text"
-               v-model="userCity"
-               @input="this.$v.userCity.$touch"/>
-        <p class="input error" v-if="this.$v.userCity.$error">Only english letters allowed</p>
+               v-model="userCity"/>
+        <p class="input error" v-if="this.$v.userCity.$invalid">Only letters allowed</p>
         <label>Country</label>
         <input class="input-field"
                type="text"
-               v-model="userCountry"
-               @input="this.$v.userCountry.$touch"/>
-        <p class="input error" v-if="this.$v.userCountry.$error">Only english letters allowed</p>
+               v-model="userCountry"/>
+        <p class="input error" v-if="this.$v.userCountry.$invalid">Only letters allowed</p>
         <label>Birth Date</label>
         <input class="input-field"
                type="date"
-               v-model="userBirthDate"
-               @input="this.$v.userBirthDate.$touch"/>
+               @input="this.$v.userBirthDate.$touch"
+               v-model="userBirthDate"/>
         <p class="input error" v-if="this.$v.userBirthDate.$error">Invalid date</p>
         <button class="button" @click="showAdditionalParams=false">Hide additional parameters</button>
       </div>
@@ -53,7 +50,8 @@
 
 <script>
 import database from '../../firebase'
-import { required, email, minLength, alpha } from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators'
+import { nonNumeric, minDate, maxDate } from '../../customValidators'
 
 export default {
   name: 'Register',
@@ -80,17 +78,17 @@ export default {
       minLength: minLength(6)
     },
     userName: {
-      alpha
+      nonNumeric
     },
     userCity: {
-      alpha
+      nonNumeric
     },
     userCountry: {
-      alpha
+      nonNumeric
     },
     userBirthDate: {
-      minDate: value => new Date(`'${value}'`) > new Date('1920-01-01'),
-      maxDate: value => new Date(`'${value}'`) < new Date('2017-01-01')
+      minDate: value => minDate(value, '1920-01-01'),
+      maxDate: value => maxDate(value, 94672800000)
     }
   },
   methods: {
