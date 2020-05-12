@@ -43,15 +43,14 @@
       </div>
       <input v-if="!this.authUser" class="button" type="submit" value="Register" @click="registerNewUser"/>
     </form>
-    <h1 v-if="this.authUser" class="headline">To register a new user please sign out</h1>
-    <router-link v-if="this.authUser" class="link" to="/">Back to the weather</router-link>
   </div>
 </template>
 
 <script>
-import database from '../../firebase'
+// import database from '../../firebase'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import { nonNumeric, minDate, maxDate } from '../../customValidators'
+import { THREE_YEARS_IN_MS } from '../../constants'
 
 export default {
   name: 'Register',
@@ -59,13 +58,17 @@ export default {
     return {
       login: '',
       password: '',
-      authUser: null,
       userName: null,
       userCity: null,
       userCountry: null,
       userBirthDate: null,
       errorText: '',
       showAdditionalParams: false
+    }
+  },
+  computed: {
+    authUser () {
+      return this.$store.state.user
     }
   },
   validations: {
@@ -88,22 +91,26 @@ export default {
     },
     userBirthDate: {
       minDate: value => minDate(value, '1920-01-01'),
-      maxDate: value => maxDate(value, 94672800000)
+      maxDate: value => maxDate(value, THREE_YEARS_IN_MS)
     }
   },
   methods: {
     registerNewUser () {
       if (!this.$v.login.$invalid && !this.$v.password.$invalid) {
-        database.auth().createUserWithEmailAndPassword(this.login, this.password)
-          .then(() => { this.errorText = '' })
+        this.$store.dispatch({
+          type: 'registerNewUser',
+          login: this.login,
+          password: this.password
+        })
+          .then(() => { this.errorText = ''; this.$router.push('/') })
           .catch(error => { this.errorText = 'Registration failed. ' + error.message })
       }
     }
   },
-  created () {
-    database.auth().onAuthStateChanged(user => {
-      this.authUser = user
-    })
+  watch: {
+    authUser () {
+      //
+    }
   }
 }
 </script>
@@ -132,7 +139,6 @@ export default {
       margin: 0;
       margin-block-start: 0;
       margin-block-end: 10px;
-
     }
   }
 </style>

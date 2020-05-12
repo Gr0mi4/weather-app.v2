@@ -12,14 +12,10 @@
              placeholder="From six symbols"/>
       <h1 class="input error" v-if="this.$v.password.$error">Your password is less then 6 symbols</h1>
       <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
-      <h1 class="user-info" v-if="this.authUser===null">You are not signed in</h1>
-      <h1 class="user-info" v-if="this.authUser">You are signed in as {{authUser.email}}</h1>
     </div>
     <div class="action-buttons">
       <input v-if="!this.authUser" class="button" type="submit" value="Sign In" @click="signInUser"/>
-      <input v-if="this.authUser" class="button" type="submit" value="Sign Out" @click="this.signOut"/>
     </div>
-    <router-link v-if="this.authUser" class="link" to="/">Back to the weather</router-link>
   </form>
 </template>
 
@@ -33,8 +29,12 @@ export default {
     return {
       login: '',
       password: '',
-      authUser: null,
       errorText: ''
+    }
+  },
+  computed: {
+    authUser () {
+      return this.$store.state.user
     }
   },
   methods: {
@@ -44,9 +44,11 @@ export default {
           .then(() => { this.errorText = '' })
           .catch(error => { this.errorText = 'User unauthorised. ' + error.message })
       }
-    },
-    signOut () {
-      database.auth().signOut()
+    }
+  },
+  watch: {
+    authUser () {
+      this.$router.push('/')
     }
   },
   validations: {
@@ -58,12 +60,6 @@ export default {
       required,
       minLength: minLength(6)
     }
-  },
-  created () {
-    console.log('yes')
-    database.auth().onAuthStateChanged(user => {
-      this.authUser = user
-    })
   }
 }
 </script>

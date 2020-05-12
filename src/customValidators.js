@@ -3,7 +3,7 @@ const nonNumeric = value => {
   value === 'undefined' || value === null || value === ''
   ) {
     return true
-  } else return !!value.match(/^[^0-9]*$/)
+  } else return !!value.match(/^[^!-@]*$/)
 }
 
 const minDate = (value, minimalDate) => {

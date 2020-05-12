@@ -3,7 +3,7 @@
     <div class="authorization-choice">
       <h1 class="headline">Hello! To see the weather you must be authorised. Please register or sign in to use
         Weather-app.v2</h1>
-      <router-link to="/signIn" class="button" replace>Sign In/Out</router-link>
+      <router-link to="/signIn" class="button" replace>Sign In</router-link>
       <router-link to="/register" class="button" replace>Register</router-link>
     </div>
     <router-view></router-view>
@@ -19,10 +19,9 @@ export default {
 
 <style lang="scss">
   .authorization-choice {
-    margin: 0 20%;
     padding: 20px;
     background-color: $secondary-color;
-    border-radius: 0 0 30px 30px;
+    width: 100vw;
 
     @media screen and (max-width: 1024px) {
       display: flex;
@@ -39,7 +38,7 @@ export default {
     }
 
     .headline {
-      font-size: 30px;
+      font-size: 25px;
       padding: 0 0 25px;
 
       @media screen and (max-width: 1024px) {

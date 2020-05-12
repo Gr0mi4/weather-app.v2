@@ -4,10 +4,10 @@
     <input id='city-input-field' class="input-field" type="text" :value="city" @change="changeCityName"/>
     <h1 class="service-headline">Please choose weather service:</h1>
     <div class="service-choice">
-      <input type="radio" name="serviceName" id="openWeather" v-model="weatherServiceName" value="openWeather"
+      <input type="radio" name="serviceName" id="openWeather" value="openWeather" v-model="weatherServiceName"
              @change="changeWeatherService"/>
       <label class="checkbox-label" for="openWeather" @click="changeWeatherService">Open Weather</label>
-      <input type="radio" name="serviceName" id="weatherBit" v-model="weatherServiceName" value="weatherBit"
+      <input type="radio" name="serviceName" id="weatherBit" value="weatherBit" v-model="weatherServiceName"
              @change="changeWeatherService"/>
       <label class="checkbox-label" for="weatherBit" @click="changeWeatherService">Weather Bit</label>
     </div>
@@ -19,22 +19,23 @@ export default {
   name: 'DataInput',
   data () {
     return {
-      cityName: this.props,
-      weatherServiceName: this.weatherService
+      weatherServiceName: 'openWeather'
     }
   },
-  props: ['city', 'weatherService'],
+  computed: {
+    city () {
+      return this.$store.state.city
+    }
+  },
   methods: {
     changeCityName () {
-      this.cityName = document.getElementById('city-input-field').value
-      this.$emit('cityNameChanged', this.cityName)
+      this.$store.commit('changeCityName', document.getElementById('city-input-field').value)
     },
     changeWeatherService () {
-      this.$emit('weatherServiceChanged', this.weatherServiceName)
+      this.$store.commit('changeWeatherService', this.weatherServiceName)
     }
   }
 }
-
 </script>
 
 <style lang="scss">

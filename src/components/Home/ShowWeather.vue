@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="show-weather">
     <input class="submit-button button" type="submit" value="Show Forecast" @click="showForecast"/>
     <h1 v-if="error" class="error">There is no city name entered or city name incorrect</h1>
     <div class="results" v-if='dataArrived && !error'>
@@ -13,15 +13,22 @@
 <script>
 export default {
   name: 'ShowWeather',
-  props: ['city', 'weatherService'],
   data () {
     return {
       results: {},
       dataArrived: false,
       timeStamp: undefined,
-      usedService: this.weatherService,
       error: false,
+      usedService: null,
       resultsFromCache: false
+    }
+  },
+  computed: {
+    city () {
+      return this.$store.state.city
+    },
+    weatherService () {
+      return this.$store.state.weatherService
     }
   },
   methods: {
@@ -127,131 +134,137 @@ export default {
 </script>
 
 <style lang="scss">
-  .submit-button {
-    border: none;
-    border-radius: 20px;
-    background-color: $primary-color;
-    width: 250px;
-    height: 50px;
-    font-family: Bahnschrift;
-    font-size: 26px;
-    color: $secondary-color;
-    transition: 0.5s;
-    outline: none;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-
-    &:focus {
-      box-shadow: 0 0 4px 4px $secondary-color;
-    }
-
-    @media screen and (max-width: 1024px) {
-      font-size: 40px;
-      width: 400px;
-      height: 75px;
-    }
-    @media screen and (max-width: 702px) {
-      font-size: 30px;
+  .show-weather {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .submit-button {
+      border: none;
+      border-radius: 20px;
+      background-color: $primary-color;
       width: 250px;
-      height: 60px;
-    }
+      height: 50px;
+      font-family: Bahnschrift;
+      font-size: 26px;
+      color: $secondary-color;
+      transition: 0.5s;
+      outline: none;
 
-    @media screen and (max-width: 502px) {
-      font-size: 25px;
-      width: 200px;
-      height: 45px;
-    }
-
-    @media screen and (max-width: 380px) {
-      font-size: 18px;
-      width: 150px;
-      height: 35px;
-    }
-  }
-
-  .results {
-    margin: 15px;
-    border: 2px solid $primary-color;
-    border-radius: 10px;
-    background-color: $secondary-color;
-    color: $tertiary-color;
-
-    @media screen and (max-width: 1024px) {
-      border-radius: 40px;
-    }
-
-    @media screen and (max-width: 702px) {
-      border-radius: 30px;
-    }
-
-    .city-name {
-      font-size: 32px;
-      margin: 10px 0 5px 0;
-
-      @media screen and (max-width: 1024px) {
-        font-size: 45px;
+      &:hover {
+        cursor: pointer;
       }
 
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &:focus {
+        box-shadow: 0 0 4px 4px $secondary-color;
+      }
+
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+        width: 400px;
+        height: 75px;
+      }
       @media screen and (max-width: 702px) {
-        font-size: 35px;
+        font-size: 30px;
+        width: 250px;
+        height: 60px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 25px;
+        width: 200px;
+        height: 45px;
       }
 
       @media screen and (max-width: 380px) {
+        font-size: 18px;
+        width: 150px;
+        height: 35px;
+      }
+    }
+
+    .results {
+      margin: 15px;
+      border: 2px solid $primary-color;
+      border-radius: 10px;
+      background-color: $secondary-color;
+      color: $tertiary-color;
+      max-width: 80%;
+
+      @media screen and (max-width: 1024px) {
+        border-radius: 40px;
+      }
+
+      @media screen and (max-width: 702px) {
+        border-radius: 30px;
+      }
+
+      .city-name {
+        font-size: 32px;
+        margin: 10px 0 5px 0;
+
+        @media screen and (max-width: 1024px) {
+          font-size: 45px;
+        }
+
+        @media screen and (max-width: 702px) {
+          font-size: 35px;
+        }
+
+        @media screen and (max-width: 380px) {
+          margin: 5px;
+          font-size: 25px;
+        }
+      }
+
+      .info-line {
+        margin: 0;
+        padding: 5px;
+        font-size: 16px;
+
+        @media screen and (max-width: 1024px) {
+          font-size: 30px;
+          padding: 0 0 5px 0;
+        }
+        @media screen and (max-width: 702px) {
+          font-size: 28px;
+          padding: 2px;
+        }
+
+        @media screen and (max-width: 380px) {
+          font-size: 16px;
+          padding: 2px;
+        }
+      }
+
+      .cache-info {
+        font-size: 12px;
+        padding: 0 15px;
         margin: 5px;
+        color: $primary-color;
+
+        @media screen and (max-width: 1024px) {
+          font-size: 18px;
+        }
+
+        @media screen and (max-width: 380px) {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .error {
+      font-size: 26px;
+      @media screen and (max-width: 502px) {
         font-size: 25px;
       }
-    }
-
-    .info-line {
-      margin: 0;
-      padding: 5px;
-      font-size: 16px;
-
-      @media screen and (max-width: 1024px) {
-        font-size: 30px;
-        padding: 0 0 5px 0;
-      }
-      @media screen and (max-width: 702px) {
-        font-size: 28px;
-        padding: 2px;
-      }
 
       @media screen and (max-width: 380px) {
-        font-size: 16px;
-        padding: 2px;
+        font-size: 20px;
       }
-    }
-
-    .cache-info {
-      font-size: 12px;
-      padding: 0 15px;
-      margin: 5px;
-      color: $primary-color;
-
-      @media screen and (max-width: 1024px) {
-        font-size: 18px;
-      }
-
-      @media screen and (max-width: 380px) {
-        font-size: 12px;
-      }
-    }
-  }
-
-  .error {
-    font-size: 26px;
-    @media screen and (max-width: 502px) {
-      font-size: 25px;
-    }
-
-    @media screen and (max-width: 380px) {
-      font-size: 20px;
     }
   }
 </style>

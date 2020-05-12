@@ -1,12 +1,8 @@
 <template>
   <div>
     <ChangeUserWindow/>
-    <DataInput id="input"
-               :city="city"
-               :weather-service="weatherService"
-               @weatherServiceChanged="weatherService=$event"
-               @cityNameChanged="city = $event"/>
-    <ShowWeather :city="city" :weatherService="weatherService"/>
+    <DataInput id="input"/>
+    <ShowWeather/>
   </div>
 </template>
 
@@ -17,16 +13,6 @@ import ChangeUserWindow from './Home/ChangeUserWindow'
 
 export default {
   name: 'Home',
-  components: { ChangeUserWindow, ShowWeather, DataInput },
-  data () {
-    return {
-      city: 'Minsk',
-      weatherService: 'openWeather'
-    }
-  }
+  components: { ShowWeather, DataInput, ChangeUserWindow }
 }
 </script>
-
-<style>
-
-</style>

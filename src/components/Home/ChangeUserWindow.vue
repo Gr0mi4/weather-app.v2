@@ -1,39 +1,51 @@
 <template>
-  <div class="userInfo" v-if="this.authUser!==null">
-    <h3>You are signed in as: {{this.authUser.email}}</h3>
-    <router-link to="/signIn" class="button">Change User</router-link>
-  </div>
+  <header class="header">
+    <h1 class="user-name" v-if="this.authUser!==null">You are signed in as: {{this.authUser.email}}</h1>
+    <nav v-if="this.authUser!==null" >
+      <router-link class="button" to="/">Home</router-link>
+      <button class="button" @click="signOut">Sign Out</button>
+    </nav>
+  </header>
 </template>
 
 <script>
-import database from './../../firebase'
+import database from '../../firebase'
 
 export default {
   name: 'ChangeUserWindow',
-  data: function () {
-    return {
-      authUser: null
+  computed: {
+    authUser () {
+      return this.$store.state.user
     }
   },
-  created () {
-    database.auth().onAuthStateChanged(user => {
-      this.authUser = user
-    })
+  methods: {
+    signOut () {
+      database.auth().signOut()
+    }
+  },
+  watch: {
+    authUser () {
+      this.$router.push('/auth')
+    }
   }
 }
 </script>
 
 <style lang="scss">
-  .userInfo {
-    padding: 0 10px;
+  .header {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     background-color: $secondary-color;
     color: $primary-color;
-    border-radius: 0 0 20px 20px;
     transition: 1s;
+    width: 100vw;
+
+    & .user-name {
+      font-size: 22px;
+      padding: 0 0 0 20px;
+    }
 
     @media screen and (max-width: 502px) {
       font-size: 10px;
@@ -44,7 +56,7 @@ export default {
       padding: 8px;
       min-width: 0;
       border-radius: 5px;
-      font-size: 18px;
+      font-size: 22px;
       border: none;
       text-decoration: none;
       background-color: $primary-color;
