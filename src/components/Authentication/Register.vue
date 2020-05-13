@@ -47,7 +47,6 @@
 </template>
 
 <script>
-// import database from '../../firebase'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import { nonNumeric, minDate, maxDate } from '../../customValidators'
 import { THREE_YEARS_IN_MS } from '../../constants'
@@ -101,15 +100,12 @@ export default {
           type: 'registerNewUser',
           login: this.login,
           password: this.password
+        }).then(() => {
+          this.errorText = ''
+          this.$router.push('/')
         })
-          .then(() => { this.errorText = ''; this.$router.push('/') })
           .catch(error => { this.errorText = 'Registration failed. ' + error.message })
       }
-    }
-  },
-  watch: {
-    authUser () {
-      //
     }
   }
 }

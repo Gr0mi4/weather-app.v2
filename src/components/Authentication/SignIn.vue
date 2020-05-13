@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import database from '../../firebase'
 import { email, minLength, required } from 'vuelidate/lib/validators'
 
 export default {
@@ -40,15 +39,16 @@ export default {
   methods: {
     signInUser () {
       if (!this.$v.login.$invalid && !this.$v.password.$invalid) {
-        database.auth().signInWithEmailAndPassword(this.login, this.password)
-          .then(() => { this.errorText = '' })
+        this.$store.dispatch({
+          type: 'signInUser',
+          login: this.login,
+          password: this.password
+        }).then(() => {
+          this.errorText = ''
+          this.$router.push('/')
+        })
           .catch(error => { this.errorText = 'User unauthorised. ' + error.message })
       }
-    }
-  },
-  watch: {
-    authUser () {
-      this.$router.push('/')
     }
   },
   validations: {
@@ -63,6 +63,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

@@ -5,12 +5,11 @@
       <router-link class="button" to="/">Home</router-link>
       <button class="button" @click="signOut">Sign Out</button>
     </nav>
+    <h1 v-if="this.errorText" class="error">{{this.errorText}}</h1>
   </header>
 </template>
 
 <script>
-import database from '../../firebase'
-
 export default {
   name: 'ChangeUserWindow',
   computed: {
@@ -18,14 +17,16 @@ export default {
       return this.$store.state.user
     }
   },
-  methods: {
-    signOut () {
-      database.auth().signOut()
+  data () {
+    return {
+      errorText: ''
     }
   },
-  watch: {
-    authUser () {
-      this.$router.push('/auth')
+  methods: {
+    signOut () {
+      this.$store.dispatch('signOut')
+        .then(() => { this.$router.push('/auth') })
+        .catch(error => { this.errorText = 'Registration failed. ' + error.message })
     }
   }
 }

@@ -1,4 +1,5 @@
 import VueRouter from 'vue-router'
+import store from './store'
 
 import Authentication from './components/Authentication'
 import Home from './components/Home'
@@ -16,19 +17,19 @@ const routes = [
     path: '/auth',
     name: 'auth',
     component: Authentication,
-    meta: { userAuthenticated: true },
+    meta: { userMustBeAuthenticated: true },
     children: [
       {
         path: '/signIn',
         name: 'SignIn',
         component: SignIn,
-        meta: { userAuthenticated: true }
+        meta: { userMustBeAuthenticated: true }
       },
       {
         path: '/register',
         name: 'Register',
         component: Register,
-        meta: { userAuthenticated: true }
+        meta: { userMustBeAuthenticated: true }
       }
     ]
   }
@@ -40,14 +41,16 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const userUnauthorised = localStorage.user === 'null' || localStorage.user === undefined
-  if (to.meta.requiresAuth && userUnauthorised) {
-    next({ path: '/auth' })
-  } else if (to.meta.userAuthenticated && !userUnauthorised) {
-    next({ path: '/' })
-  } else {
-    next()
-  }
+  store.dispatch('checkAuthentication')
+    .then((user) => {
+      if (to.meta.requiresAuth && user === null) {
+        next({ path: '/auth' })
+      } else if (to.meta.userMustBeAuthenticated && user) {
+        next({ path: '/' })
+      } else {
+        next()
+      }
+    })
 })
 
 export default router

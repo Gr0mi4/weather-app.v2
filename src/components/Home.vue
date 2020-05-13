@@ -1,7 +1,7 @@
 <template>
   <div>
     <ChangeUserWindow/>
-    <DataInput id="input"/>
+    <DataInput/>
     <ShowWeather/>
   </div>
 </template>

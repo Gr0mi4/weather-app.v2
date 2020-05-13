@@ -14,12 +14,11 @@
 export default {
   name: 'Authentification'
 }
-
 </script>
 
 <style lang="scss">
   .authorization-choice {
-    padding: 20px;
+    padding: 20px 0;
     background-color: $secondary-color;
     width: 100vw;
 

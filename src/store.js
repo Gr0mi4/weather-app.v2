@@ -21,11 +21,46 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    registerNewUser (commit, login) {
-      database.auth().createUserWithEmailAndPassword(login, '123456')
-        .then(database.auth.currentUser(user => {
-          commit('saveAuthenticatedUser', user)
-        }))
+    registerNewUser (context, payload) {
+      return new Promise((resolve, reject) => {
+        database.auth().createUserWithEmailAndPassword(payload.login, payload.password)
+          .then(resp => {
+            context.commit('saveAuthenticatedUser', resp.user)
+            resolve()
+          }, error => {
+            reject(error)
+          })
+      })
+    },
+    signInUser (context, payload) {
+      return new Promise((resolve, reject) => {
+        database.auth().signInWithEmailAndPassword(payload.login, payload.password)
+          .then(resp => {
+            context.commit('saveAuthenticatedUser', resp.user)
+            resolve()
+          }, error => {
+            reject(error)
+          })
+      })
+    },
+    signOut (context) {
+      return new Promise((resolve, reject) => {
+        database.auth().signOut()
+          .then(() => {
+            context.commit('saveAuthenticatedUser', null)
+            resolve()
+          }, error => {
+            reject(error)
+          })
+      })
+    },
+    checkAuthentication (context) {
+      return new Promise((resolve) => {
+        database.auth().onAuthStateChanged(user => {
+          context.commit('saveAuthenticatedUser', user)
+          resolve(user)
+        })
+      })
     }
   }
 })
