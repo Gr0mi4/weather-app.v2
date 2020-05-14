@@ -2,12 +2,11 @@
   <div class="registration">
     <form @submit.prevent class="register-form">
       <div class="inputs">
-        <label>Please type your email here:</label>
+        <label for="login-input">Please type your email here:</label>
         <input class="input-field" type="text" id="login-input" v-model="login"
-
                placeholder="smth@youremailservice.com"/>
         <p class="input error" v-if="this.$v.login.$error">Entered email is not valid</p>
-        <label>Please type your password here:</label>
+        <label for="password-input">Please type your password here:</label>
         <input class="input-field" type="password" id="password-input" v-model="password"
                @blur="this.$v.password.$touch"
                placeholder="From six symbols"/>
@@ -18,23 +17,23 @@
         parameters
       </button>
       <div v-if="showAdditionalParams" class="inputs additional">
-        <label>First Name</label>
-        <input class="input-field"
+        <label for="user-first-name">First Name</label>
+        <input class="input-field" id="user-first-name"
                type="text"
                v-model="userName"/>
         <p class="input error" v-if="this.$v.userName.$invalid">Only letters allowed</p>
-        <label>City</label>
-        <input class="input-field"
+        <label for="user-city">City</label>
+        <input class="input-field" id="user-city"
                type="text"
                v-model="userCity"/>
         <p class="input error" v-if="this.$v.userCity.$invalid">Only letters allowed</p>
-        <label>Country</label>
-        <input class="input-field"
+        <label for="user-country">Country</label>
+        <input class="input-field" id="user-country"
                type="text"
                v-model="userCountry"/>
         <p class="input error" v-if="this.$v.userCountry.$invalid">Only letters allowed</p>
-        <label>Birth Date</label>
-        <input class="input-field"
+        <label for="user-birth-date">Birth Date</label>
+        <input class="input-field" id="user-birth-date"
                type="date"
                @input="this.$v.userBirthDate.$touch"
                v-model="userBirthDate"/>
@@ -99,7 +98,13 @@ export default {
         this.$store.dispatch({
           type: 'registerNewUser',
           login: this.login,
-          password: this.password
+          password: this.password,
+          additionalInfo: {
+            name: this.userName,
+            city: this.userCity,
+            country: this.userCountry,
+            birthDate: this.userBirthDate
+          }
         }).then(() => {
           this.errorText = ''
           this.$router.push('/')

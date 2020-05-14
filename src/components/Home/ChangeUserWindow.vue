@@ -2,7 +2,8 @@
   <header class="header">
     <h1 class="user-name" v-if="this.authUser!==null">You are signed in as: {{this.authUser.email}}</h1>
     <nav v-if="this.authUser!==null" >
-      <router-link class="button" to="/">Home</router-link>
+      <router-link class="button" to="/" exact>Home</router-link>
+      <router-link class="button" to="/profile" exact>Profile</router-link>
       <button class="button" @click="signOut">Sign Out</button>
     </nav>
     <h1 v-if="this.errorText" class="error">{{this.errorText}}</h1>
@@ -26,7 +27,7 @@ export default {
     signOut () {
       this.$store.dispatch('signOut')
         .then(() => { this.$router.push('/auth') })
-        .catch(error => { this.errorText = 'Registration failed. ' + error.message })
+        .catch(error => { this.errorText = 'Sign out failed. ' + error.message })
     }
   }
 }
@@ -66,6 +67,16 @@ export default {
       @media screen and (max-width: 502px) {
         font-size: 14px;
         padding: 3px;
+      }
+
+      &.router-link-active {
+        background-color: $secondary-color;
+        color: $primary-color;
+        border: 2px solid $primary-color;
+
+        &:focus {
+          box-shadow: 0 0 4px 2px $primary-color;
+        }
       }
     }
   }

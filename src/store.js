@@ -6,12 +6,16 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     user: null,
+    userAdditionalInfo: null,
     city: 'Minsk',
     weatherService: 'openWeather'
   },
   mutations: {
     saveAuthenticatedUser (state, user) {
       this.state.user = user
+    },
+    saveUserAdditionalInfo (state, userInfo) {
+      this.state.userAdditionalInfo = userInfo
     },
     changeCityName (state, city) {
       this.state.city = city
@@ -21,25 +25,12 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    registerNewUser (context, payload) {
-      return new Promise((resolve, reject) => {
-        database.auth().createUserWithEmailAndPassword(payload.login, payload.password)
-          .then(resp => {
-            context.commit('saveAuthenticatedUser', resp.user)
-            resolve()
-          }, error => {
-            reject(error)
-          })
-      })
-    },
     signInUser (context, payload) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         database.auth().signInWithEmailAndPassword(payload.login, payload.password)
           .then(resp => {
             context.commit('saveAuthenticatedUser', resp.user)
-            resolve()
-          }, error => {
-            reject(error)
+            resolve(resp.user)
           })
       })
     },
@@ -61,6 +52,33 @@ const store = new Vuex.Store({
           resolve(user)
         })
       })
+    },
+    registerNewUser (context, payload) {
+      return new Promise((resolve, reject) => {
+        database.auth().createUserWithEmailAndPassword(payload.login, payload.password)
+          .then(resp => {
+            context.commit('saveAuthenticatedUser', resp.user)
+            if (payload.additionalInfo) {
+              database.database().ref('users/' + resp.user.uid).set({
+                name: payload.additionalInfo.name,
+                city: payload.additionalInfo.city,
+                country: payload.additionalInfo.country,
+                birthDate: payload.additionalInfo.birthDate
+              })
+              context.commit('saveUserAdditionalInfo', payload.additionalInfo)
+            }
+            resolve()
+          }, error => {
+            reject(error)
+          })
+      })
+    },
+    getUserAdditionalInfo (context) {
+      database.database()
+        .ref('users/' + this.state.user.uid)
+        .on('value', (snapshot) => {
+          context.commit('saveUserAdditionalInfo', snapshot.val())
+        })
     }
   }
 })
