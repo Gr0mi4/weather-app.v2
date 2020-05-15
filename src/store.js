@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import database from './firebase'
+import myDatabase from './firebase'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -27,16 +27,16 @@ const store = new Vuex.Store({
   actions: {
     signInUser (context, payload) {
       return new Promise((resolve) => {
-        database.auth().signInWithEmailAndPassword(payload.login, payload.password)
+        myDatabase.auth().signInWithEmailAndPassword(payload.login, payload.password)
           .then(resp => {
             context.commit('saveAuthenticatedUser', resp.user)
-            resolve(resp.user)
+            context.dispatch('getUserAdditionalInfo').then(() => resolve(resp.user))
           })
       })
     },
     signOut (context) {
       return new Promise((resolve, reject) => {
-        database.auth().signOut()
+        myDatabase.auth().signOut()
           .then(() => {
             context.commit('saveAuthenticatedUser', null)
             resolve()
@@ -47,7 +47,7 @@ const store = new Vuex.Store({
     },
     checkAuthentication (context) {
       return new Promise((resolve) => {
-        database.auth().onAuthStateChanged(user => {
+        myDatabase.auth().onAuthStateChanged(user => {
           context.commit('saveAuthenticatedUser', user)
           resolve(user)
         })
@@ -55,17 +55,12 @@ const store = new Vuex.Store({
     },
     registerNewUser (context, payload) {
       return new Promise((resolve, reject) => {
-        database.auth().createUserWithEmailAndPassword(payload.login, payload.password)
+        myDatabase.auth().createUserWithEmailAndPassword(payload.login, payload.password)
           .then(resp => {
             context.commit('saveAuthenticatedUser', resp.user)
             if (payload.additionalInfo) {
-              database.database().ref('users/' + resp.user.uid).set({
-                name: payload.additionalInfo.name,
-                city: payload.additionalInfo.city,
-                country: payload.additionalInfo.country,
-                birthDate: payload.additionalInfo.birthDate
-              })
-              context.commit('saveUserAdditionalInfo', payload.additionalInfo)
+              payload.uid = resp.user.uid
+              store.dispatch('loadUserAdditionalInfo', payload)
             }
             resolve()
           }, error => {
@@ -74,11 +69,34 @@ const store = new Vuex.Store({
       })
     },
     getUserAdditionalInfo (context) {
-      database.database()
+      myDatabase.database()
         .ref('users/' + this.state.user.uid)
         .on('value', (snapshot) => {
           context.commit('saveUserAdditionalInfo', snapshot.val())
         })
+    },
+    loadUserAdditionalInfo (context, payload) {
+      myDatabase.database().ref('users/' + payload.uid)
+        .set({
+          name: payload.additionalInfo.name,
+          city: payload.additionalInfo.city,
+          country: payload.additionalInfo.country,
+          birthDate: payload.additionalInfo.birthDate
+        }).then(() =>
+          context.commit('saveUserAdditionalInfo', payload.additionalInfo)
+        )
+    },
+    changeUserData (context, payload) {
+      return new Promise((resolve, reject) => {
+        myDatabase.database()
+          .ref('users/' + store.state.user.uid)
+          .child(`${payload.property}`).set(`${payload.value}`)
+          .then(() => {
+            context.dispatch('getUserAdditionalInfo').then(() =>
+              resolve())
+          })
+          .catch((error) => { reject(error) })
+      })
     }
   }
 })

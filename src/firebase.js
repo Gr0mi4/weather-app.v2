@@ -11,6 +11,6 @@ const firebaseConfig = {
   measurementId: process.env.VUE_APP_FB_MEASURMENT_ID
 }
 
-const database = firebase.initializeApp(firebaseConfig)
+const myDatabase = firebase.initializeApp(firebaseConfig)
 
-export default database
+export default myDatabase

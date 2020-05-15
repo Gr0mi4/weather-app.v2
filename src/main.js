@@ -9,13 +9,12 @@ Vue.use(VueRouter)
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
-store.dispatch('checkAuthentication').then(() => {
-  new Vue({
-    router,
-    store,
-    render: h => h(App)
-  }).$mount('#app')
-  if (store.state.user) {
-    store.dispatch('getUserAdditionalInfo')
-  }
-})
+store.dispatch('checkAuthentication')
+  .then((user) => { if (user) { store.dispatch('getUserAdditionalInfo') } })
+  .then(() => {
+    new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  })
