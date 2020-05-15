@@ -1,7 +1,7 @@
 <template>
   <div class="input">
     <h1 class="input-header">Please enter your city</h1>
-    <input id='city-input-field' class="input-field" type="text" :value="city" @change="changeCityName"/>
+    <input id='city-input-field' class="input-field" type="text" :value="this.$store.state.city" @change="changeCityName"/>
     <h1 class="service-headline">Please choose weather service:</h1>
     <div class="service-choice">
       <input type="radio" name="serviceName" id="openWeather" value="openWeather" v-model="weatherServiceName"
@@ -20,11 +20,6 @@ export default {
   data () {
     return {
       weatherServiceName: 'openWeather'
-    }
-  },
-  computed: {
-    city () {
-      return this.$store.state.city
     }
   },
   methods: {
@@ -127,6 +122,13 @@ export default {
       margin: 5px 15px 5px 15px;
       display: flex;
       flex-direction: row;
+
+      .button {
+        min-width: 150px;
+        padding: 10px;
+        margin: 10px;
+        font-size: 22px;
+      }
 
       .checkbox-label {
         display: block;

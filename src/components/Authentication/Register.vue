@@ -9,13 +9,11 @@
         <label for="password-input">Please type your password here:</label>
         <input class="input-field" type="password" id="password-input" v-model="password"
                @blur="this.$v.password.$touch"
-               placeholder="From six symbols"/>
+               placeholder="Six(6) symbols at least"/>
         <p class="input error" v-if="this.$v.password.$error">Your password is less then 6 symbols</p>
         <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
       </div>
-      <button v-if="!showAdditionalParams" class="button" @click="showAdditionalParams=true">Show additional
-        parameters
-      </button>
+      <button v-if="!showAdditionalParams" class="button" @click="showAdditionalParams=true">Show additional parameters</button>
       <div v-if="showAdditionalParams" class="inputs additional">
         <label for="user-first-name">First Name</label>
         <input class="input-field" id="user-first-name"
@@ -38,9 +36,9 @@
                @input="this.$v.userBirthDate.$touch"
                v-model="userBirthDate"/>
         <p class="input error" v-if="this.$v.userBirthDate.$error">Invalid date</p>
-        <button class="button" @click="showAdditionalParams=false">Hide additional parameters</button>
+        <input class="button" @click="showAdditionalParams=false" value="Hide additional parameters">
       </div>
-      <input v-if="!this.authUser" class="button" type="submit" value="Register" @click="registerNewUser"/>
+      <input v-if="!this.$store.state.user" class="button" type="submit" value="Register" @click="registerNewUser"/>
     </form>
   </div>
 </template>
@@ -62,11 +60,6 @@ export default {
       userBirthDate: null,
       errorText: '',
       showAdditionalParams: false
-    }
-  },
-  computed: {
-    authUser () {
-      return this.$store.state.user
     }
   },
   validations: {
@@ -140,6 +133,40 @@ export default {
       margin: 0;
       margin-block-start: 0;
       margin-block-end: 10px;
+    }
+
+    .button {
+      @media screen and (max-width: 1024px) {
+        font-size: 40px;
+        padding: 20px 20px;
+        margin: 20px 20px 40px;
+        min-width: 250px;
+      }
+
+      @media screen and (max-width: 702px) {
+        font-size: 30px;
+        padding: 15px;
+        margin: 15px 15px 30px;
+        min-width: 200px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 25px;
+        margin: 10px 10px 20px;
+        min-width: 180px;
+      }
+
+      @media screen and (max-width: 380px) {
+        font-size: 22px;
+        margin: 5px 5px 15px;
+        min-width: 150px;
+      }
+
+      @media screen and (max-width: 302px) {
+        font-size: 16px;
+        margin: 5px;
+        min-width: 100px;
+      }
     }
   }
 </style>

@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="authorization-choice">
-      <h1 class="headline">Hello! To see the weather you must be authorised. Please register or sign in to use
-        Weather-app.v2</h1>
+      <h1 class="headline">Hello! To see the weather you must be authorised. Please register or sign in to use Weather-app.v2</h1>
       <router-link to="/signIn" class="button" replace>Sign In</router-link>
       <router-link to="/register" class="button" replace>Register</router-link>
     </div>
@@ -12,7 +11,7 @@
 
 <script>
 export default {
-  name: 'Authentification'
+  name: 'Authentication'
 }
 </script>
 
@@ -58,7 +57,8 @@ export default {
 
     .button {
       font-size: 30px;
-      padding: 15px 25px;
+      padding: 15px 55px;
+      margin: 20px;
 
       @media screen and (max-width: 1024px) {
         font-size: 25px;
@@ -68,7 +68,7 @@ export default {
 
       @media screen and (max-width: 702px) {
         font-size: 22px;
-        padding: 5px 5px;
+        padding: 5px;
       }
     }
 

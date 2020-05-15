@@ -107,8 +107,7 @@ export default {
       }
     },
     convertKalvinToCelsius (degreesKalvin) {
-      const degreesCelsius = Math.floor(degreesKalvin - 273.15) + String.fromCharCode(176) + ' C'
-      return degreesCelsius
+      return Math.floor(degreesKalvin - 273.15) + String.fromCharCode(176) + ' C'
     },
     checkResultsInCache () {
       if (localStorage.city === undefined) {
@@ -138,7 +137,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    .submit-button {
+
+    & .submit-button {
+      padding: 5px;
       border: none;
       border-radius: 20px;
       background-color: $primary-color;
@@ -193,6 +194,7 @@ export default {
       background-color: $secondary-color;
       color: $tertiary-color;
       max-width: 80%;
+      min-width: 50vw;
 
       @media screen and (max-width: 1024px) {
         border-radius: 40px;

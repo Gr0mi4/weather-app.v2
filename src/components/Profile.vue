@@ -2,8 +2,8 @@
   <div>
     <ChangeUserWindow/>
     <div class="user-info">
-    <h1>User Info:</h1>
-    <table class="data-table" id="data=table">
+    <h1 class="table-header">User Info:</h1>
+    <table class="data-table" id="data-table">
       <tr v-for="(value, key, index) in this.$store.state.userAdditionalInfo" class="data-list" :key="index">
         <td>{{key}} :</td>
         <td @click="changeFieldValue"> {{value}}</td>
@@ -11,6 +11,7 @@
     </table>
     <h1 v-if="this.$store.state.userAdditionalInfo===null">Sorry, no user information provided</h1>
     </div>
+    <h3>To change User data just click on it!</h3>
   </div>
 </template>
 
@@ -26,19 +27,19 @@ export default {
       propertyName = propertyName.replace(/ :/g, '')
       propertyName = propertyName.replace(/^[A-Z]/g, u => u.toLowerCase())
       const inputField = document.createElement('input')
-      inputField.classList.add('input-field')
-      inputField.id = 'input-field'
+      inputField.classList.add('input-field', 'temporary')
       inputField.value = event.currentTarget.innerText
-      event.currentTarget.replaceWith(inputField)
-      inputField.onblur = () => {
+      event.currentTarget.append(inputField)
+      inputField.focus()
+      const sendNewValue = () => {
         this.$store.dispatch('changeUserData', {
           property: propertyName,
           value: inputField.value
         })
-        const newItem = document.createElement('td')
-        newItem.innerText = inputField.value
-        inputField.replaceWith(newItem)
+        inputField.remove()
       }
+      // inputField.addEventListener('keydown', event => event.key === 'Enter' ? sendNewValue() : null)
+      inputField.addEventListener('blur', sendNewValue)
     }
   }
 }
@@ -55,6 +56,14 @@ export default {
     margin: 20px auto;
     border-radius: 40px;
     padding: 0 0 20px 0;
+    min-width: 300px;
+    border: 2px solid #3460A4;
+
+    & .table-header {
+      @media screen and (max-width: 502px) {
+        font-size: 24px;
+      }
+    }
 
       & .data-list {
         display: flex;
@@ -65,6 +74,11 @@ export default {
           list-style: none;
           font-size: 24px;
           text-transform: capitalize;
+          position: relative;
+
+          @media screen and (max-width: 502px) {
+            font-size: 16px;
+          }
         }
 
         & td:first-child {
@@ -77,6 +91,7 @@ export default {
           text-align: center;
           margin: 0 auto;
           min-width: 140px;
+          transition: 0.5s;
         }
 
         .button {
@@ -93,6 +108,13 @@ export default {
           max-width: 140px;
           min-width: 100px;
           margin: 0 auto;
+
+          &.temporary {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+            z-index: 10;
+          }
         }
       }
     }

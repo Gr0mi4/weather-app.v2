@@ -1,7 +1,7 @@
 <template>
   <header class="header">
-    <h1 class="user-name" v-if="this.authUser!==null">You are signed in as: {{this.authUser.email}}</h1>
-    <nav v-if="this.authUser!==null" >
+    <h1 class="user-name" v-if="this.$store.state.user!==null">You are signed in as: {{this.$store.state.user.email}}</h1>
+    <nav v-if="this.$store.state.user!==null" >
       <router-link class="button" to="/" exact>Home</router-link>
       <router-link class="button" to="/profile" exact>Profile</router-link>
       <button class="button" @click="signOut">Sign Out</button>
@@ -13,11 +13,6 @@
 <script>
 export default {
   name: 'ChangeUserWindow',
-  computed: {
-    authUser () {
-      return this.$store.state.user
-    }
-  },
   data () {
     return {
       errorText: ''
@@ -47,6 +42,14 @@ export default {
     & .user-name {
       font-size: 22px;
       padding: 0 0 0 20px;
+
+      @media screen and (max-width: 802px) {
+        font-size: 16px;
+      }
+
+      @media screen and (max-width: 502px) {
+        font-size: 12px;
+      }
     }
 
     @media screen and (max-width: 502px) {
@@ -64,8 +67,13 @@ export default {
       background-color: $primary-color;
       color: $secondary-color;
 
-      @media screen and (max-width: 502px) {
-        font-size: 14px;
+      @media screen and (max-width: 802px) {
+        font-size: 16px;
+        padding: 5px;
+      }
+
+      @media screen and (max-width: 595px) {
+        font-size: 12px;
         padding: 3px;
       }
 

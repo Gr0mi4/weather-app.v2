@@ -9,13 +9,11 @@
       <label>Please type your password here:</label>
       <input class="input-field" type="password" id="password-input" v-model="password"
              @blur="this.$v.password.$touch"
-             placeholder="From six symbols"/>
+             placeholder="Six(6) symbols at least"/>
       <h1 class="input error" v-if="this.$v.password.$error">Your password is less then 6 symbols</h1>
       <h1 class="user-info error" v-if="this.errorText">{{errorText}}</h1>
     </div>
-    <div class="action-buttons">
-      <input v-if="!this.authUser" class="button" type="submit" value="Sign In" @click="signInUser"/>
-    </div>
+      <input v-if="!this.$store.state.user" class="button" type="submit" value="Sign In" @click="signInUser"/>
   </form>
 </template>
 
@@ -29,11 +27,6 @@ export default {
       login: '',
       password: '',
       errorText: ''
-    }
-  },
-  computed: {
-    authUser () {
-      return this.$store.state.user
     }
   },
   methods: {
@@ -63,3 +56,43 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .button {
+    padding: 20px 40px;
+    margin: 10px;
+    font-size: 28px;
+
+    @media screen and (max-width: 1024px) {
+      font-size: 40px;
+      padding: 20px 20px;
+      margin: 20px 20px 40px;
+      min-width: 250px;
+    }
+
+    @media screen and (max-width: 702px) {
+      font-size: 30px;
+      padding: 15px;
+      margin: 15px 15px 30px;
+      min-width: 200px;
+    }
+
+    @media screen and (max-width: 502px) {
+      font-size: 25px;
+      margin: 10px 10px 20px;
+      min-width: 180px;
+    }
+
+    @media screen and (max-width: 380px) {
+      font-size: 22px;
+      margin: 5px 5px 15px;
+      min-width: 150px;
+    }
+
+    @media screen and (max-width: 302px) {
+      font-size: 16px;
+      margin: 5px;
+      min-width: 100px;
+    }
+  }
+</style>
