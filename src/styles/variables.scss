@@ -1,0 +1,31 @@
+$primary-color: #3460A4;
+$secondary-color: #fff;
+$tertiary-color: #000;
+$primary-background-color: #a1c4fd;
+$error-color: red;
+
+// Mixins
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin bigPhone {
+  @media (max-width: 702px) {
+    @content;
+  }
+}
+
+@mixin middlePhone {
+  @media (max-width: 502px) {
+    @content;
+  }
+}
+
+@mixin smallPhone {
+  @media (max-width: 302px) {
+    @content;
+  }
+}
