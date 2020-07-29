@@ -8,7 +8,10 @@
     "stage": "vue-cli-service serve --mode stage",
     "prodStage": "vue-cli-service build --mode stage",
     "webpackStage": "webpack-dev-server --open --config webpack.stage.conf.js",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "standard": "standard index.js",
+    "test": "nyc ./node_modules/.bin/ava -v"
   },
   "dependencies": {
     "core-js": "^3.6.4",
@@ -43,7 +46,13 @@
     "vue-template-compiler": "^2.6.11",
     "vuelidate": "^0.7.5",
     "vuex": "^3.3.0",
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "ava": "^0.16.0",
+    "co-exec": "^1.0",
+    "codecov": "^1.0.1",
+    "ghooks": "^1.2.4",
+    "nyc": "^10.0.0",
+    "standard": "^8.4.0"
   },
   "eslintConfig": {
     "root": true,
@@ -63,5 +72,10 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run standard"
+    }
+  }
 }
