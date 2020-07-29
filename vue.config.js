@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: 'weather-app.v2',
   css: {
     loaderOptions: {
       scss: {
