@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: 'weather-app.v2',
+  publicPath: process.env.NODE_ENV === 'production' ? 'weather-app.v2' : '/',
   css: {
     loaderOptions: {
       scss: {
