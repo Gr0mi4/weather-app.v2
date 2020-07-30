@@ -7,7 +7,7 @@
        v-if='$store.state.userAdditionalInfo'
        class="input-header headline"
     >{{$t('dataInput.enterCity', { userName: $store.getters.userName })}}</h1>
-    <h1>New stuff</h1>
+    <h1>New stuff here!!!</h1>
     <input
        id='city-input-field'
        class="input-field"
