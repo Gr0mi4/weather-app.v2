@@ -6,9 +6,7 @@ script: npm run build
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDTios7xzwb9dXil1PchbjGk/4285XaYpM6NWpN2E4F1hj5moWQLSX5d6i7QgUJAvItZSHfoR5XAnHtHrC37eugHWGKiXf5jhFBz2eHCz7dU5DeB04/0A9FRUvOVh8R4FRRusYmFr7sXdFE07SMTpvaP7Cd/+JjGceCljojLUjL/qR0gvqlFjQAj6H1lLmkxH8KXI
-    W5dhj5d/k7E6rjqPVefK0zw8vJKtwmAvU2F+YDJ8AZYyL9AZeJstRYzmw45kyQZ/P3DYCtJTRgNjPLwjzQsjjfvSn81N+el4V5PoEXMjVzyyVPjmZUEne8KEoiSdxzQ2v2rc0iXYe1CmgmHmeO1OFmT0YQBRYW7vKe/c5wW1Yi67ERQ0+vokHGFPAubzvLrNyN9gK2i/1/H1JW05D2mp9ljHL6djwb/a77nBfXQ8oKVTHMJ2hQ1+qeKlTb1k505lgDnkSNwLyuIL
-    WY4faULW88VZJ46lSPPHaRM3PDMLzBfQkGB3bcQX0vBHeTdbW4hkkxCHs0E4nfqQawTvLv0RkEIUEXEYbY47/PF10fEgaUfMyzXkzmcVupbwUxVDvs61Dif1QEbRTkhZ7gUmljZUsNzMmRy7gOJXUGOoE1/Ga5FZADEftDgU/QZbSf2YmLSak1Ra4pMdJD+AAoES/S0CHOiYLeksK5Oj+YHWgNoQ== ivangromov1993@gmail.com
+  github_token: $GITHUB_TOKEN
   local_dir: dist
   on:
     branch: master
