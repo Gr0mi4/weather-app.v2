@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import myDatabase from './firebase'
-import axios from 'axios'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -46,12 +45,6 @@ const store = new Vuex.Store({
     },
     changeCityName (state, city) {
       this.state.city = city
-    },
-    changeWeatherService (state, weatherService) {
-      this.state.weatherService = weatherService
-    },
-    saveGoods (state, goods) {
-      this.state.goods = goods
     }
   },
 
@@ -131,40 +124,20 @@ const store = new Vuex.Store({
           .catch((error) => { reject(error) })
       })
     },
-    getGoods (context) {
+    getYourLocation (context) {
       return new Promise((resolve, reject) => {
-        myDatabase
-          .storage()
-          .ref('data.json')
-          .getDownloadURL()
-          .then(url => axios.get(url))
-          .then((response) => context.commit('saveGoods', response.data))
-          .then((response) => resolve(response))
-          .catch(error => reject(error))
+        fetch('https://api.geoapify.com/v1/ipinfo?&apiKey=dc3a3ecf3c9a4b0694db72018a135b77')
+          .then(response => response.json())
+          .then(data => {
+            context.commit('changeCityName', data.city.name)
+            resolve()
+          })
+          .catch((error) => {
+            console.warn(error)
+            reject(error)
+          })
       })
     }
-    // getGoodsFakeJSON (context) {
-    //   return new Promise((resolve, reject) => {
-    //     axios.post('https://app.fakejson.com/q', {
-    //       token: 'PXxxYOJR-X_rpSsyvfPkYg',
-    //       data: {
-    //         _id: { $oid: 'stringCharacters|10' },
-    //         title: 'productName',
-    //         price: 'numberInt',
-    //         size: 'functionArray|5|stringCharacters|1,2',
-    //         images: ['http://speedhunters-wp-production.s3.amazonaws.com/wp-content/uploads/2020/05/25031651/Speedhunters_Eliza_Kirberger-29.jpg',
-    //           'http://speedhunters-wp-production.s3.amazonaws.com/wp-content/uploads/2020/05/22054106/2010-Nurburgring-24H-for-Speedhunters-by-Paddy-McGrath-16-1200x800.jpg'],
-    //         rating: 'numberInt|1,5',
-    //         description: 'stringLong',
-    //         tags: 'functionArray|2|stringWords|1',
-    //         colors: 'functionArray|3|colorRGB',
-    //         _repeat: '12'
-    //       }
-    //     }).then((response) => context.commit('saveGoods', response.data))
-    //       .then((response) => resolve(response))
-    //       .catch(error => reject(error))
-    //   })
-    // }
   }
 })
 

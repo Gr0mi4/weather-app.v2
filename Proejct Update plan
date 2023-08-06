@@ -1,0 +1,6 @@
+1. Make project actually show weather
+2. Remove unnecessary things
+3. Make basic functional - app should show weather in you city, but you can select some other
+4. Remove exposed creds from constants to env
+5. modify folder structure
+6. Figure out positions for all elements on a page, through understanding user behaviour

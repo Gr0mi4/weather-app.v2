@@ -13,13 +13,11 @@ const routes = [
     name: 'home',
     redirect: '/weatherToday',
     component: Home,
-    meta: { requiresAuth: true },
     children: [
       {
         path: '/weatherToday',
         name: 'Weather Today',
-        component: WeatherToday,
-        meta: { requiresAuth: true }
+        component: WeatherToday
       },
       {
         path: '/profile',

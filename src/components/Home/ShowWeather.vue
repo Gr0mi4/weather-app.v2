@@ -21,9 +21,17 @@
 
 <script>
 import { OPEN_WEATHER_URL, OPEN_WEATHER_TODAY_FORECAST_API, OPEN_WEATHER_APP_ID } from '../../constants'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'ShowWeather',
+
+  created () {
+    this.getYourLocation().then(() => {
+      this.showOpenWeatherForecast()
+    })
+  },
+
   data () {
     return {
       results: {},
@@ -36,6 +44,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(['getYourLocation']),
+
     showOpenWeatherForecast () {
       if (this.checkResultsInCache()) {
         this.showResultsFromCache()
@@ -105,9 +115,6 @@ export default {
   computed: {
     city () {
       return this.$store.state.city
-    },
-    weatherService () {
-      return this.$store.state.weatherService
     }
   }
 }

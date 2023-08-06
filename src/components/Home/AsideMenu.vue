@@ -5,8 +5,13 @@
 <!--      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.tomorrow')}}</li>-->
 <!--      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.threeDays')}}</li>-->
 <!--      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.sevenDays')}}</li>-->
-      <li class="item" @click="addSelected('/profile')">{{ $t('asideMenu.profile')}}</li>
-      <li class="item" @click="signOut">{{ $t('asideMenu.signOut')}}</li>
+      <li v-if="this.$store.state.user" class="item" @click="addSelected('/profile')">
+        {{ $t('asideMenu.profile')}}
+      </li>
+      <li v-if="this.$store.state.user" class="item" @click="signOut">{{ $t('asideMenu.signOut')}}</li>
+      <li v-if="!this.$store.state.user" class="item" @click="() => { this.$router.push('/auth') }">
+        {{ $t('signIn.signIn')}}
+      </li>
     </ul>
   </aside>
 </template>

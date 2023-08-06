@@ -15,7 +15,3 @@ export default {
   components: { ShowWeather, DataInput }
 }
 </script>
-
-<style scoped>
-
-</style>
