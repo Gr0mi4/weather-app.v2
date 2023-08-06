@@ -2,7 +2,7 @@ const THREE_YEARS_IN_MS = 94672800000
 
 const OPEN_WEATHER_URL = 'http://api.openweathermap.org/'
 const OPEN_WEATHER_TODAY_FORECAST_API = 'data/2.5/weather?q='
-const OPEN_WEATHER_APP_ID = '&APPID=1d5b2747b9b459a833cca4a6207e9467'
+const OPEN_WEATHER_APP_ID = '&APPID=09ad216794bd09fdce18289be650655a'
 
 const WEATHER_BIT_URL = 'https://api.weatherbit.io/'
 const WEATHER_BIT_TODAY_FORECAST_API = 'v2.0/current?city='
