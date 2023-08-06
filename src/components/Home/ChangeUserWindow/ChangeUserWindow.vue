@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import LanguageChange from './ChangeUserWindow/LanguageChange'
+import LanguageChange from './LanguageChange'
 export default {
   name: 'ChangeUserWindow',
 

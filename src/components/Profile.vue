@@ -14,10 +14,6 @@
     </table>
     <h1 v-if="$store.state.userAdditionalInfo===null">{{$t('profile.userInfoError')}}</h1>
     </div>
-    <h2
-       class="headline"
-       v-if="$store.state.userAdditionalInfo"
-    >{{ $t('profile.userAge', {age: $d($store.getters.userAge, 'userAge')-1970}) }}</h2>
     <h3 class="headline">{{$t('profile.prompt')}}</h3>
   </div>
 </template>

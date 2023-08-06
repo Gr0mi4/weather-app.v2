@@ -71,8 +71,7 @@ const ru = {
     threeDays: '3 дня',
     sevenDays: '7 дней',
     signOut: 'Выйти',
-    profile: 'Профиль',
-    goods: 'Товары'
+    profile: 'Профиль'
   }
 }
 

@@ -1,15 +1,13 @@
 <template>
-  <aside class="aside-menu hidden" id="aside-menu">
+  <aside class="aside-menu" id="aside-menu">
     <ul class="list">
       <li class="item selected" @click="addSelected('/weatherToday')">{{ $t('asideMenu.today')}}</li>
-      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.tomorrow')}}</li>
-      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.threeDays')}}</li>
-      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.sevenDays')}}</li>
+<!--      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.tomorrow')}}</li>-->
+<!--      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.threeDays')}}</li>-->
+<!--      <li class="item" @click="addSelected('/')">{{ $t('asideMenu.sevenDays')}}</li>-->
       <li class="item" @click="addSelected('/profile')">{{ $t('asideMenu.profile')}}</li>
-      <li class="item" @click="addSelected('/goodsList')">{{ $t('asideMenu.goods')}}</li>
       <li class="item" @click="signOut">{{ $t('asideMenu.signOut')}}</li>
     </ul>
-    <button class="show-hide" @click="showHideAsideMenu"></button>
   </aside>
 </template>
 
@@ -27,10 +25,6 @@ export default {
       } else {
         this.$router.push({ path: routePath })
       }
-    },
-    showHideAsideMenu () {
-      const asideMenu = document.getElementById('aside-menu')
-      asideMenu.classList.contains('hidden') ? asideMenu.classList.remove('hidden') : asideMenu.classList.add('hidden')
     },
     signOut () {
       this.$store.dispatch('signOut')
@@ -87,22 +81,6 @@ export default {
 
       &:hover {
         cursor: pointer;
-      }
-    }
-
-    &:after {
-      position: relative;
-      display: block;
-      content: "";
-      background-color: $primary-color;
-      border-radius: 0 1rem 1rem 0;
-      left: 172px;
-      width: 25px;
-      height: 150px;
-
-      @include bigPhone {
-        left: 118px;
-        height: 150px;
       }
     }
 

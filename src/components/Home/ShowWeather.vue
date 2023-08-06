@@ -20,10 +20,7 @@
 </template>
 
 <script>
-import {
-  OPEN_WEATHER_URL, OPEN_WEATHER_TODAY_FORECAST_API, OPEN_WEATHER_APP_ID,
-  WEATHER_BIT_URL, WEATHER_BIT_TODAY_FORECAST_API, WEATHER_BIT_APP_ID
-} from '../../constants'
+import { OPEN_WEATHER_URL, OPEN_WEATHER_TODAY_FORECAST_API, OPEN_WEATHER_APP_ID } from '../../constants'
 
 export default {
   name: 'ShowWeather',
@@ -67,37 +64,6 @@ export default {
         )
       }
     },
-    showWeatherBitForecast () {
-      if (this.checkResultsInCache()) {
-        this.showResultsFromCache()
-      } else {
-        this.resultsFromCache = false
-        const url = WEATHER_BIT_URL + WEATHER_BIT_TODAY_FORECAST_API + `${this.city}` + WEATHER_BIT_APP_ID
-        fetch(url).then(response => {
-          if (response.status === 204 || response.status === 404) {
-            this.error = true
-          } else {
-            response.json().then(result => {
-              const forecastData = {
-                [this.$t('showWeather.country')]: result.data[0].country_code,
-                [this.$t('showWeather.weatherCondition')]: result.data[0].weather.description,
-                [this.$t('showWeather.temperature')]: Math.round(result.data[0].temp) + String.fromCharCode(176) + ' C',
-                [this.$t('showWeather.feelsLike')]: Math.round(result.data[0].app_temp) + String.fromCharCode(176) + ' C',
-                [this.$t('showWeather.humidity')]: result.data[0].rh + ' %',
-                [this.$t('showWeather.windSpeed')]: Math.round(result.data[0].wind_spd) + ' m/s'
-              }
-              this.results = forecastData
-              this.dataArrived = true
-              if (!this.checkResultsInCache()) {
-                this.saveResultsInCache(forecastData)
-              }
-            }
-            )
-          }
-        }
-        )
-      }
-    },
     showForecast () {
       if (this.city === '') {
         this.error = true
@@ -105,13 +71,8 @@ export default {
       }
       this.error = false
       this.timeStamp = Date.now()
-      if (this.weatherService === 'openWeather') {
-        this.usedService = 'Open Weather'
-        this.showOpenWeatherForecast()
-      } else {
-        this.usedService = 'Weather Bit'
-        this.showWeatherBitForecast()
-      }
+      this.usedService = 'Open Weather'
+      this.showOpenWeatherForecast()
     },
     convertKalvinToCelsius (degreesKalvin) {
       return Math.floor(degreesKalvin - 273.15) + String.fromCharCode(176) + ' C'

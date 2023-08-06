@@ -6,8 +6,6 @@ import SignIn from './components/Authentication/SignIn'
 import Register from './components/Authentication/Register'
 import Profile from './components/Profile'
 import WeatherToday from './components/Pages/WeatherToday'
-import GoodsList from './components/Pages/GoodsList'
-import Good from './components/Pages/Good'
 
 const routes = [
   {
@@ -27,18 +25,6 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: Profile,
-        meta: { requiresAuth: true }
-      },
-      {
-        path: '/goodsList',
-        name: 'GoodsList',
-        component: GoodsList,
-        meta: { requiresAuth: true }
-      },
-      {
-        path: '/good/:id',
-        name: 'Good',
-        component: Good,
         meta: { requiresAuth: true }
       }
     ]
@@ -66,7 +52,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  // mode: 'history',
   routes: routes
 })
 

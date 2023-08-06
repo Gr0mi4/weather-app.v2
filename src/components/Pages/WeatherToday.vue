@@ -7,7 +7,7 @@
 
 <script>
 import ShowWeather from '../Home/ShowWeather'
-import DataInput from '../Home/DataInput'
+import DataInput from '../Home/ChangeUserWindow/DataInput'
 
 export default {
   name: 'WeatherToday',

@@ -62,17 +62,15 @@ const en = {
   profile: {
     userInfo: 'User Info:',
     userInfoError: 'Sorry, no user information provided',
-    prompt: 'To change User data just click on it!',
-    userAge: 'User now is {age} years old'
+    prompt: 'To change User data just click on it!'
   },
   asideMenu: {
     today: 'Today',
     tomorrow: 'Tomorrow',
     threeDays: '3 Days',
     sevenDays: '7 Days',
-    signOut: 'SignOut',
     profile: 'Profile',
-    goods: 'Goods'
+    signOut: 'SignOut'
   }
 }
 

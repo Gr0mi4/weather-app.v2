@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ChangeUserWindow from './Home/ChangeUserWindow'
+import ChangeUserWindow from './Home/ChangeUserWindow/ChangeUserWindow'
 import AsideMenu from './Home/AsideMenu'
 
 export default {
